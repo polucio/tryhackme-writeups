@@ -9,7 +9,7 @@ Write-ups are provided in two styles when helpful:
 ## Contents
 
 - **OSINT**
-  - **Aiko Abe Investigation (TryHackMe)** — Open-source intelligence case study covering identity pivoting, dark‑web paste reconstruction, WiFi geolocation, blockchain tracing, and travel/imagery analysis.
+  - **Sakura Room (TryHackMe)** — Open-source intelligence case study covering identity pivoting, dark‑web paste reconstruction, WiFi geolocation, blockchain tracing, and travel/imagery analysis.
 
 > **Disclaimer**  
 > These write-ups are for educational and defensive training purposes only.  
