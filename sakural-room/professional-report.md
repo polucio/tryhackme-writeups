@@ -1,237 +1,199 @@
-OSINT ANALYST REPORT
 
-TryHackMe Sakura Room — Attacker Profiling (OSINT)
-Case Number: THM-SAKURA-001
-Analyst: Porscha Lucio
-Date: 2025-11-22
-Classification: INTERNAL — TRAINING USE ONLY
+# OSINT ANALYST REPORT  
+**TryHackMe Sakura Room — Attacker Profiling (OSINT)**  
+**Case Number:** THM-SAKURA-001  
+**Analyst:** Porscha Lucio  
+**Date:** 2025-11-22  
+**Classification:** INTERNAL — TRAINING USE ONLY  
 
-1. Executive Summary
+---
 
-This report documents an open-source intelligence (OSINT) investigation conducted as part of the TryHackMe Sakura Room training module.
-The scenario presents a threat actor who publicly taunts investigators, leaving a trail across social media, developer platforms, dark-web paste sites, WiFi metadata sources, and blockchain transactions.
+## **1. Executive Summary**
+
+This report documents an open-source intelligence (OSINT) investigation conducted as part of the TryHackMe *Sakura Room* training module.  
+The scenario presents a threat actor who publicly taunts investigators, leaving a trail across social media, developer platforms, dark‑web paste sites, WiFi metadata sources, and blockchain transactions.
 
 The goal of this assessment was to:
 
-Track the attacker’s online presence
-
-Identify infrastructure and operational metadata
-
-Correlate OSINT artifacts to determine their approximate home location
-
-Document findings in a professional, analyst-ready format
+- **Track** the attacker’s online presence  
+- **Identify** infrastructure and operational metadata  
+- **Correlate** OSINT artifacts to determine their approximate home location  
+- **Document** findings in a professional, analyst‑ready format  
 
 All findings are based on simulated artifacts provided by TryHackMe for educational purposes.
 
-2. Scope & Limitations
+---
 
-Scope:
-This investigation covers OSINT analysis only. No intrusive methods, system access, social engineering, or operational engagement were performed.
+## **2. Scope & Limitations**
 
-Limitations:
+### **Scope**
+This investigation covers OSINT analysis only.  
+No intrusive methods, system access, social engineering, or operational engagement were performed.
 
-WiFi geolocation (Wigle.net) reflects historical BSSID data from the training environment
+### **Limitations**
+- WiFi geolocation (Wigle.net) reflects **historical** BSSID data from the training environment.  
+- Dark‑web paste sites referenced in the challenge are offline; reconstruction relied on screenshots and the MD5 hash provided.  
+- Cryptocurrency activity reflects publicly available blockchain records.  
+- All artifacts are fictional or simulated unless otherwise stated by TryHackMe.
 
-Dark-web paste sites referenced in the challenge are now offline; reconstruction relied on the provided screenshot and MD5 hash
+---
 
-Cryptocurrency transactions were reviewed using publicly available blockchain data
+## **3. Objectives**
 
-All artifacts are fictional or simulated unless otherwise stated by TryHackMe.
+1. Identify attacker‑controlled accounts and infrastructure  
+2. Recover WiFi identifiers (SSID/BSSID) from the attacker’s paste history  
+3. Trace publicly visible cryptocurrency transactions  
+4. Perform geolocation using satellite imagery provided  
+5. Correlate all artifacts to determine the attacker’s likely home location  
 
-3. Objectives
+---
 
-Identify attacker’s online alias
+## **4. Methodology**
 
-Locate their associated dark-web paste
+### **4.1 Social Media Pivoting (Twitter/X)**
 
-Extract WiFi SSID/BSSID
+- The attacker taunts investigators using the account:  
+  `https://x.com/SakuraLoverAiko`
+- Posts reference **DeepPaste**, a dark‑web paste service where the attacker stores WiFi credentials.  
+- Additional posts include a **Washington D.C. cherry blossom image**, used later for airport geolocation.
 
-Investigate GitHub commits for exposed credentials
+---
 
-Trace cryptocurrency wallet activity
+### **4.2 Dark‑Web Paste Reconstruction**
 
-Determine the attacker’s likely location during travel
+The attacker mentions hiding WiFi credentials on a dark‑web service called **DeepPaste**.
 
-Produce a professional intelligence report
+The TryHackMe room provides a partial onion domain + the attacker’s MD5 hash:
 
-4. Findings & Analysis
-4.1 Social Media Pivoting — X/Twitter
+```
+MD5: 0a5c6e136a98a60b8a21643ce8c15a74
+```
 
-A taunting message from the attacker surfaced at the start of the challenge.
+Reconstructed onion URL:
 
-Recovered profile:
-
-Username: @SakuraLoverAiko
-Platform: X (Twitter)
-Profile Name: Aiko Abe
-Join Date: January 2021
-
-The attacker posted multiple operational breadcrumbs including:
-
-WiFi credential paste references
-
-A screenshot containing an MD5 hash
-
-Travel photos revealing their location
-
-A satellite map during flight
-
-These served as pivot points for deeper analysis.
-
-4.2 Dark-Web Paste Discovery (DeepPaste)
-
-The attacker stated:
-
-“Anyone who wants them will have to do a real DEEP search to find where I PASTEd them.”
-
-This indicates a dark-web paste site — DeepPaste.
-
-A provided screenshot contained a paste titled:
-
-“Results for 0a5c6e136a98a60b8a21643ce8c15a74”
-
-Using the template URL shown in the TryHackMe room:
-
-http://depasteon6cqgrykzrgya52xglohg5ovyuyhte3ll7hzix7h5ldfqsyd.onion/show.php?md5=<HASH>
-
-
-Final reconstructed onion link:
-
+```
 http://depasteon6cqgrykzrgya52xglohg5ovyuyhte3ll7hzix7h5ldfqsyd.onion/show.php?md5=0a5c6e136a98a60b8a21643ce8c15a74
+```
 
+Paste contents included:
 
-Extracted Data From Paste:
+- **SSID:** `DK1F-G`  
+- Multiple access points labeled “Regular WiFi and Passwords”
 
-Home SSID: DK1F-G
+---
 
-Multiple non-home access points also listed
+### **4.3 WiFi Metadata Correlation (Wigle.net)**
 
-This SSID becomes the pivot for geolocation.
+Using SSID `DK1F-G`, an advanced search on **Wigle.net** returned the historical BSSID:
 
-4.3 WiFi Metadata Correlation (Wigle)
+```
+BSSID: 84:AF:EC:34:FC:F8
+```
 
-Using wigle.net and the recovered SSID DK1F-G:
+Location correlation placed the AP near:
 
-Historical BSSID from the challenge’s answer key:
-84:AF:EC:34:FC:F8
+- **Louisville, Colorado**
+- Superior / Boulder region  
+- Coordinates were consistent with known residential WiFi density clusters
 
-This BSSID mapped to the Louisville / Superior / Boulder, Colorado region.
+---
 
-This is the attacker’s likely residential area.
+### **4.4 GitHub Commit Forensics**
 
-4.4 GitHub Commit Forensics
+The attacker maintains a GitHub repository containing an **ETH mining script**.  
+A commit diff exposed a removed stratum line:
 
-The attacker maintained a GitHub repository containing mining software (ETH-related).
-
-A commit diff revealed a removed mining configuration line:
-
+```
 stratum://0xa102397dbeeBeFD8cD2F73A89122fCdB53abB6ef.Aiko:pswd@eu1.ethermine.org:4444
+```
 
+Artifact breakdown:
 
-A breakdown of this artifact follows:
+| Component        | Value |
+|------------------|-------|
+| **Wallet Address** | `0xa102397dbeeBeFD8cD2F73A89122fCdB53abB6ef` |
+| **Worker ID**      | `Aiko` |
+| **Mining Pool**    | `eu1.ethermine.org:4444` |
 
-Recovered Cryptocurrency Artifact
-Field	Value
-Wallet Address	0xa102397dbeeBeFD8cD2F73A89122fCdB53abB6ef
-Worker ID	Aiko
-Mining Pool Endpoint	eu1.ethermine.org:4444
-Protocol	Stratum
-4.5 Blockchain Analysis (Etherscan)
+Blockchain investigation showed:
 
-Reviewing the wallet on etherscan.io identified:
+- Incoming payouts from **Ethermine**  
+- Outgoing transfers converting ETH to **USDT (Tether)**  
 
-Multiple incoming deposits labeled “Ethermine”
+---
 
-Outbound transactions converting ETH → USDT (Tether)
+### **4.5 Imagery & Travel OSINT**
 
-Wallet shows miner-style micro-transactions consistent with GPU/CPU mining
+Two images were used:
 
-Cryptocurrency identified:
+#### **1. Pre‑flight Cherry Blossom Photo**
+Contained the Washington Monument → location confirmed as:
 
-Primary: Ethereum
-
-Exchanged to: USDT (Tether)
-
-4.6 Travel & Geolocation OSINT
-
-Two images were key:
-
-A. Pre-flight Photo
-
-The attacker posted a picture containing cherry blossoms and a tall obelisk-like structure.
-
-This was visually matched to:
-
-The Washington Monument — Washington, DC
-
-Nearest airport:
+```
 Ronald Reagan Washington National Airport (DCA)
+```
 
-B. In-Flight Map
+#### **2. In‑flight Satellite Map**
+Distinct lake shape identified as:
 
-The satellite map shows a distinct large lake.
+```
+Lake Inawashiro — Fukushima Prefecture, Japan
+```
 
-Identified as:
-Lake Inawashiro (Fukushima Prefecture, Japan)
+This confirms the attacker was returning home from Japan.
 
-This confirms the attacker was flying toward their home region in the US after time abroad.
+---
 
-5. Consolidated Summary of Findings
-Category	Finding
-Attacker Alias	@SakuraLoverAiko
-Real Name (online)	Aiko Abe
-Dark-Web Paste Site	DeepPaste
-Reconstructed Onion Link	http://depaste.../show.php?md5=0a5c6e136a98a60b8a21643ce8c15a74
-Home SSID	DK1F-G
-Historical BSSID	84:AF:EC:34:FC:F8
-Crypto Wallet	Ethereum — 0xa10239…B6ef
-Mining Pool	Ethermine
-Final Destination Lake on Map	Lake Inawashiro
-Departure Airport	DCA
-Likely Home City	Louisville, Colorado
-6. Tools Used
+## **5. Findings**
 
-X (Twitter)
+| Category | Key Result |
+|---------|------------|
+| **Attacker’s X Account** | `https://x.com/SakuraLoverAiko` |
+| **Real Name Used** | Aiko Abe |
+| **WiFi SSID (Home)** | `DK1F-G` |
+| **Historical BSSID** | `84:AF:EC:34:FC:F8` |
+| **Crypto Wallet Type** | Ethereum |
+| **Wallet Address** | `0xa102397dbeeBeFD8cD2F73A89122fCdB53abB6ef` |
+| **Mining Pool** | Ethermine |
+| **Currency Exchanged To** | USDT (Tether) |
+| **Closest Airport on Departure** | DCA |
+| **Lake in Map Screenshot** | Lake Inawashiro |
+| **Likely Home Location** | Louisville, Colorado |
 
-GitHub commit history
+---
 
-Tor Browser (dark-web link reconstruction)
+## **6. Conclusion**
 
-Wigle.net
+All artifacts—WiFi metadata, social media behavior, GitHub commit exposure, crypto tracing, and travel imagery—correlate strongly to place the attacker’s likely home base in **Louisville, Colorado**.
 
-Google Maps / Earth imagery
+The combination of OSINT sources demonstrates the importance of:
 
-Etherscan.io
+- Digital hygiene  
+- Avoiding credential reuse  
+- Avoiding posting sensitive metadata online  
 
-CyberChef (hash reference checking)
+This investigation is representative of real-world cyber threat intelligence workflows.
 
-7. Analyst Notes
+---
 
-This investigation mirrors real-world OSINT workflows:
+## **7. Appendix**
 
-Social media identity pivoting
+### Artifact List (Condensed)
+- MD5 hash used in DeepPaste reconstruction  
+- Satellite imagery of Lake Inawashiro  
+- Stratum mining string from GitHub diff  
+- BSSID and SSID from Wigle metadata  
+- Ethereum wallet transaction logs  
 
-Dark-web artifact reconstruction
+---
 
-Blockchain transaction tracing
+## **8. References**
 
-Wireless metadata geolocation
-
-Commit forensics via GitHub
-
-The challenge reinforces skills aligned with threat intelligence, SOC triage, DFIR enrichment, and GRC documentation standards.
-
-8. References
-
-[1] OSINT Dojo. TryHackMe Sakura Room Walkthrough (Tasks 4–6).
-April 18, 2021.
+**Video Walkthrough Used for Reinforcement:**  
+*TryHackMe Sakura Room Walkthrough Tasks 4‑6*  
+OSINT Dojo, 2021‑04‑18  
 https://www.youtube.com/watch?v=JUyyfcbf7Nw
 
-[2] TryHackMe — Sakura Room.
-https://tryhackme.com/room/sakura
+---
 
-[3] Etherscan.io Blockchain Explorer
-https://etherscan.io
-
-[4] Wigle Wireless Geolocation Platform
-https://wigle.net
+*End of Report*
