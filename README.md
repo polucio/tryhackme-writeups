@@ -9,7 +9,10 @@ Write-ups are provided in two styles when helpful:
 ## Contents
 
 - **OSINT**
-  - **Sakura Room (TryHackMe)** — Open-source intelligence case study covering identity pivoting, dark‑web paste reconstruction, WiFi geolocation, blockchain tracing, and travel/imagery analysis.
+  - **Sakura Room (TryHackMe)** — Open-source intelligence case study covering identity pivoting, dark-web paste reconstruction, WiFi geolocation, blockchain tracing, and travel/imagery analysis.
+
+- **Password Attacks**
+  - **Hydra (TryHackMe)** — Practical walkthrough of brute-forcing weak credentials using Hydra against web forms (HTTP POST) and SSH services, including analysis of failure responses and credential validation.
 
 > **Disclaimer**  
 > These write-ups are for educational and defensive training purposes only.  
